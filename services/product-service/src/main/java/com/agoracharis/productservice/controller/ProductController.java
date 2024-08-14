@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/products")
@@ -37,5 +39,10 @@ public class ProductController {
     @GetMapping("/{sku}")
     public ResponseEntity<ProductResponse.ProductSkuResponse> findProductById(@PathVariable String sku){
         return ResponseEntity.ok(productService.findBySku(sku));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductResponse>> fetchProducts(){
+        return ResponseEntity.ok(productService.findAll());
     }
 }
