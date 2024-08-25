@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
             var product = storedProducts.get(i);
             var productRequest = sortedRequest.get(i);
             if (product.getAvailableQuantity() < productRequest.quantity()) {
-                throw new InvalidArgumentException("Insufficient stock quantity for product with ID:: " + productRequest.productId());
+                throw new InvalidArgumentException("Insufficient stock quantity for product with ID: " + productRequest.productId());
             }
             var newAvailableQuantity = product.getAvailableQuantity() - productRequest.quantity();
             product.setAvailableQuantity(newAvailableQuantity);
