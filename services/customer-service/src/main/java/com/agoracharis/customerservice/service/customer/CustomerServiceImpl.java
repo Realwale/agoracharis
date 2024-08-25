@@ -86,4 +86,15 @@ public class CustomerServiceImpl implements CustomerService{
          return "Customer deleted successfully";
     }
 
+    @Override
+    public CustomerResp retrieveCustomerById(String customerId){
+        var customer = customerRepository.findById(customerId)
+                .orElseThrow(()-> new ResourceNotFoundException("Customer not found with Id: "+ customerId));
+
+        return new CustomerResp(customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getAddress());
+    }
 }

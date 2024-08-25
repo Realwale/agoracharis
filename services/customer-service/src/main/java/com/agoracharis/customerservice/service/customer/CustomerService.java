@@ -14,7 +14,9 @@ public interface CustomerService {
 
     List<CustomerResp> retrieveAllCustomers();
 
-    Boolean findCustomerById(String id);
+    Boolean findCustomerById(String customerId);
 
     String deleteCustomerById(String id);
+
+    CustomerResp retrieveCustomerById(String customerId);
 }
