@@ -1,4 +1,4 @@
-package com.agoracharis.orderservice.data;
+package com.agoracharis.orderservice.data.request;
 
 import com.agoracharis.orderservice.constant.PaymentMethod;
 import jakarta.validation.constraints.NotBlank;

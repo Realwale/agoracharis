@@ -1,4 +1,4 @@
-package com.agoracharis.orderservice.data;
+package com.agoracharis.orderservice.data.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
