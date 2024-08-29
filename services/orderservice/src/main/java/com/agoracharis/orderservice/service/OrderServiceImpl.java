@@ -1,12 +1,15 @@
 package com.agoracharis.orderservice.service;
 
 import com.agoracharis.orderservice.config.client.CustomerFeignClient;
+import com.agoracharis.orderservice.config.client.PaymentClient;
 import com.agoracharis.orderservice.config.client.ProductClient;
 import com.agoracharis.orderservice.config.kafka.OrderProducer;
 import com.agoracharis.orderservice.data.request.OrderLineReq;
 import com.agoracharis.orderservice.data.request.OrderRequest;
+import com.agoracharis.orderservice.data.request.PaymentReq;
 import com.agoracharis.orderservice.data.request.PurchaseRequest;
 import com.agoracharis.orderservice.config.kafka.OrderConfirmation;
+import com.agoracharis.orderservice.data.response.CustomerResp;
 import com.agoracharis.orderservice.data.response.OrderLineResp;
 import com.agoracharis.orderservice.data.response.OrderResp;
 import com.agoracharis.orderservice.exception.ResourceNotFoundException;
@@ -28,6 +31,7 @@ public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
     private final OrderLineRepository orderLineRepository;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
 
     @Override
@@ -57,6 +61,15 @@ public class OrderServiceImpl implements OrderService{
                             .build())
                     .build();
             orderLineRepository.save(orderLine);
+
+            var paymentReq = new PaymentReq(
+                    orderRequest.reference(),
+                    orderRequest.totalAmount(),
+                    saveOrder.getId(),
+                    customer,
+                    orderRequest.paymentMethod()
+            );
+            this.paymentClient.doPayment(paymentReq);
 
             orderProducer.sendOrder(
                     new OrderConfirmation(
